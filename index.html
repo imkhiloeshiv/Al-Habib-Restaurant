@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al Habib Restaurant | الحبیب ریستوران — Karachi Super Highway</title>
+  <meta name="description" content="Experience the legendary 3D culinary journey of Al Habib Restaurant on Karachi-Hyderabad Super Highway (M-9). World-famous Mutton Karahi, Balochi Sajji, Charcoal BBQ & authentic Pakistani dining.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js for 3D Background & 3D Interactive elements -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP for Smooth Choreography -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+
+  <!-- Ambient Sound Toggle & Notification -->
+  <div class="fixed-controls">
+    <button id="soundToggle" class="sound-btn" aria-label="Toggle Highway Ambiance Sound" title="Highway Grill Sizzle Ambiance">
+      <i data-lucide="volume-x" id="soundIcon"></i>
+      <span class="sound-label">Highway Grill Ambience</span>
+      <span class="sound-wave">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Interactive 3D Canvas Background -->
+  <canvas id="bg3dCanvas"></canvas>
+  <div class="glow-beam-container" aria-hidden="true">
+    <div class="radial-glow-beam"></div>
+    <div class="cyber-grid-plane"></div>
+    <div class="fog-overlay"></div>
+  </div>
+
+  <!-- Announcement Ribbon -->
+  <aside class="announcement-bar" role="region" aria-label="Restaurant Highlight">
+    <div class="container announcement-content">
+      <div class="badge-live"><span class="pulse-dot"></span> LIVE DINING NOW</div>
+      <p class="announcement-text">
+        <span>⭐ 4.1 Rating (9,117+ Google Reviews)</span>
+        <span class="divider">•</span>
+        <span>Karachi - Hyderabad Motorway M-9, Gadap Town</span>
+        <span class="divider">•</span>
+        <span class="time-highlight"><i data-lucide="clock"></i> Open Daily · Closes 12:00 AM Midnight</span>
+      </p>
+      <a href="tel:+923333378677" class="announcement-call">
+        <i data-lucide="phone-call"></i> +92 333 3378677
+      </a>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar container">
+      <a href="#hero" class="brand-logo">
+        <div class="logo-symbol">
+          <div class="logo-flame"></div>
+          <i data-lucide="flame"></i>
+        </div>
+        <div class="logo-text">
+          <span class="brand-title">AL HABIB</span>
+          <span class="brand-urdu">الحبیب ریستوران</span>
+        </div>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#hero" class="nav-item active">Home</a>
+        <a href="#specialties" class="nav-item">3D Karahi & Grill</a>
+        <a href="#menu" class="nav-item">Highway Menu</a>
+        <a href="#ambiance" class="nav-item">Takht Experience</a>
+        <a href="#reviews" class="nav-item">9.1k Reviews</a>
+        <a href="#location" class="nav-item">M-9 Location</a>
+      </div>
+
+      <div class="nav-actions">
+        <button id="cartBtn" class="cart-trigger" aria-label="View Order Tray">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <a href="#reservation" class="btn btn-glow">
+          <span>Book a Takht</span>
+          <i data-lucide="sparkles"></i>
+        </a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION (Pinterest-Referenced Modern Dark Glow UI) -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        
+        <!-- Top Pill Badge -->
+        <div class="hero-tag-wrapper">
+          <div class="hero-tag">
+            <span class="tag-sparkle">✦</span>
+            <span>The Iconic Super Highway Landmark Since 1998</span>
+            <span class="tag-arrow">→</span>
+          </div>
+        </div>
+
+        <!-- Grand Animated Title -->
+        <div class="hero-title-group">
+          <h1 class="hero-heading">
+            <span class="heading-line split-text">THE LEGEND OF</span>
+            <span class="heading-line highlight-glow split-text">SUPER HIGHWAY</span>
+            <span class="hero-urdu-title" data-title="الحبیب ریستوران">الحبیب ریستوران</span>
+          </h1>
+          <p class="hero-subheading">
+            Indulge in Karachi’s legendary nocturnal feast. Sizzling cast-iron <strong>Mutton Karahi</strong> in pure Desi Ghee, tender <strong>Balochi Sajji</strong> over smoldering charcoals, and royal outdoor <em>Takht</em> seating under the desert sky.
+          </p>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="hero-ctas">
+          <a href="#menu" class="btn btn-primary-glow">
+            <span>Explore Highway Menu</span>
+            <i data-lucide="arrow-right"></i>
+          </a>
+          <a href="#reservation" class="btn btn-secondary-glass">
+            <i data-lucide="calendar"></i>
+            <span>Reserve Family Takht</span>
+          </a>
+          <a href="https://maps.google.com/?q=Al+Habib+Restaurant+Karachi+Hyderabad+Motorway" target="_blank" rel="noopener noreferrer" class="btn btn-tertiary-glass">
+            <i data-lucide="map-pin"></i>
+            <span>Get Directions (M-9)</span>
+          </a>
+        </div>
+
+        <!-- Interactive 3D Nodes Display (Reflecting the Pinterest UI layout) -->
+        <div class="hero-interactive-stage">
+          
+          <!-- Central Interactive 3D Presentation Card -->
+          <div class="hero-centerpiece" data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.3">
+            <div class="centerpiece-halo"></div>
+            <div class="centerpiece-dish-image">
+              <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=1000&q=80" alt="Al Habib Sizzling Mutton Karahi" id="heroDishImg" loading="eager">
+              <div class="steam-particle s1"></div>
+              <div class="steam-particle s2"></div>
+              <div class="steam-particle s3"></div>
+            </div>
+            
+            <div class="centerpiece-info">
+              <div class="dish-badge">#1 Highway Signature</div>
+              <h2 class="dish-title">Special Mutton Shinwari Karahi</h2>
+              <p class="dish-desc">Hand-butchered fresh lamb cooked in its own natural fat & pure butter on blazing coals with ripe tomatoes and cracked black pepper.</p>
+              <div class="dish-footer">
+                <span class="dish-price">PKR 2,450 <small>/ Half KG</small></span>
+                <button class="btn-quick-add" onclick="cart.addItem('Special Mutton Shinwari Karahi', 2450, 'Mutton Special', 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Add to Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connected Floating Feature Nodes (Inspired by Pinterest diagram nodes) -->
+          <div class="feature-nodes-grid">
+            <div class="feature-node node-left-1" data-tilt data-tilt-max="15">
+              <div class="node-icon"><i data-lucide="flame"></i></div>
+              <div class="node-info">
+                <strong>Live Coal Woks</strong>
+                <span>Blazing iron karahi station</span>
+              </div>
+            </div>
+
+            <div class="feature-node node-left-2" data-tilt data-tilt-max="15">
+              <div class="node-icon"><i data-lucide="star"></i></div>
+              <div class="node-info">
+                <strong>4.1 ★ Verified</strong>
+                <span>9,117 Google Map Reviews</span>
+              </div>
+            </div>
+
+            <div class="feature-node node-right-1" data-tilt data-tilt-max="15">
+              <div class="node-icon"><i data-lucide="moon"></i></div>
+              <div class="node-info">
+                <strong>Open till 12:00 AM</strong>
+                <span>Late night Karachi feast</span>
+              </div>
+            </div>
+
+            <div class="feature-node node-right-2" data-tilt data-tilt-max="15">
+              <div class="node-icon"><i data-lucide="landmark"></i></div>
+              <div class="node-info">
+                <strong>Grand Onsite Mosque</strong>
+                <span>Peaceful family facilities</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quick Stats Banner -->
+        <div class="hero-stats-bar">
+          <div class="stat-cell">
+            <div class="stat-number">4.1 <span class="stat-star">★</span></div>
+            <div class="stat-label">Google Rating</div>
+            <div class="stat-sub">Based on 9,117+ reviews</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Fresh Cuts Daily</div>
+            <div class="stat-sub">Authentic Desi Ghee & Spices</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-number">2,000+</div>
+            <div class="stat-label">Capacity Takht Seating</div>
+            <div class="stat-sub">Open-air Lawn & AC VIP Halls</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-number">M-9</div>
+            <div class="stat-label">Highway Landmark</div>
+            <div class="stat-sub">Gadap Town, Karachi</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3D INTERACTIVE DISH SHOWCASE -->
+    <section class="section showcase-section" id="specialties">
+      <div class="container">
+        
+        <div class="section-header text-center">
+          <span class="section-tag"><i data-lucide="sparkles"></i> 3D CULINARY HIGHLIGHTS</span>
+          <h2 class="section-title">Masterpieces of Fire & Spices</h2>
+          <p class="section-desc">Move your cursor over each culinary gem to experience full 3D interactive depth, specular illumination, and authentic highway heritage.</p>
+        </div>
+
+        <div class="cards-3d-grid">
+          
+          <!-- Card 1: Balochi Mutton Sajji -->
+          <div class="card-3d" data-tilt data-tilt-max="18" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.25">
+            <div class="card-glow-edge"></div>
+            <div class="card-image-box">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="Al Habib Balochi Mutton Sajji" loading="lazy">
+              <span class="card-badge-floating"><i data-lucide="award"></i> Most Popular</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-category">Balochi Specialty</span>
+                <span class="card-spice"><i data-lucide="flame"></i> Mild Smoky</span>
+              </div>
+              <h3 class="card-title">Balochi Mutton Sajji with Kabuli Rice</h3>
+              <p class="card-text">Whole roasted lamb marinated in carom seeds, sea salt & lemon, skewered around burning firewood embers and served atop aromatic dry-fruit rice.</p>
+              <div class="card-action-bar">
+                <div class="price-box">
+                  <span class="price-val">PKR 3,200</span>
+                  <span class="price-note">Full Sajji Platter</span>
+                </div>
+                <button class="btn btn-pill-add" onclick="cart.addItem('Balochi Mutton Sajji with Rice', 3200, 'Balochi Special', 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Smoked Koila Chicken Karahi -->
+          <div class="card-3d" data-tilt data-tilt-max="18" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.25">
+            <div class="card-glow-edge"></div>
+            <div class="card-image-box">
+              <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=900&q=80" alt="Koila Chicken Karahi" loading="lazy">
+              <span class="card-badge-floating"><i data-lucide="flame"></i> Highway Fire</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-category">Live Karahi</span>
+                <span class="card-spice"><i data-lucide="flame"></i><i data-lucide="flame"></i> Medium Spicy</span>
+              </div>
+              <h3 class="card-title">Signature Koila Chicken Karahi</h3>
+              <p class="card-text">Infused with live smoldering charcoal smoke, crushed red peppers, fresh coriander, ginger juliennes and tempered with organic butter.</p>
+              <div class="card-action-bar">
+                <div class="price-box">
+                  <span class="price-val">PKR 1,650</span>
+                  <span class="price-note">Full Wok (1 KG)</span>
+                </div>
+                <button class="btn btn-pill-add" onclick="cart.addItem('Signature Koila Chicken Karahi', 1650, 'Chicken Karahi', 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Reshmi Malai Boti & Seekh Kebabs -->
+          <div class="card-3d" data-tilt data-tilt-max="18" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.25">
+            <div class="card-glow-edge"></div>
+            <div class="card-image-box">
+              <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=80" alt="Live Charcoal Malai Boti" loading="lazy">
+              <span class="card-badge-floating"><i data-lucide="heart"></i> Chef Special</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-category">Charcoal Grill</span>
+                <span class="card-spice"><i data-lucide="flame"></i> Creamy & Soft</span>
+              </div>
+              <h3 class="card-title">Melt-In-Mouth Malai Boti Platter</h3>
+              <p class="card-text">Tender boneless chicken cubes marinated in green chili cream, hung yogurt, cardamoms and slow-grilled over white hot charcoal skewers.</p>
+              <div class="card-action-bar">
+                <div class="price-box">
+                  <span class="price-val">PKR 1,150</span>
+                  <span class="price-note">10 Skewered Pieces</span>
+                </div>
+                <button class="btn btn-pill-add" onclick="cart.addItem('Melt-In-Mouth Malai Boti Platter', 1150, 'BBQ Grill', 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Degi Mutton Pulao & Highway Biryani -->
+          <div class="card-3d" data-tilt data-tilt-max="18" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.25">
+            <div class="card-glow-edge"></div>
+            <div class="card-image-box">
+              <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=900&q=80" alt="Mutton Pulao" loading="lazy">
+              <span class="card-badge-floating"><i data-lucide="star"></i> Traditional</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-category">Degi Rice</span>
+                <span class="card-spice"><i data-lucide="flame"></i> Aromatic</span>
+              </div>
+              <h3 class="card-title">Traditional Degi Mutton Yakhni Pulao</h3>
+              <p class="card-text">Long-grain aged basmati steeped in slow-simmered rich mutton bone broth, whole aromatic spices, golden fried onions and served with cucumber raita.</p>
+              <div class="card-action-bar">
+                <div class="price-box">
+                  <span class="price-val">PKR 1,450</span>
+                  <span class="price-note">Platter with Raita</span>
+                </div>
+                <button class="btn btn-pill-add" onclick="cart.addItem('Traditional Degi Mutton Yakhni Pulao', 1450, 'Rice Specials', 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Piping Hot Roghani Naan -->
+          <div class="card-3d" data-tilt data-tilt-max="18" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.25">
+            <div class="card-glow-edge"></div>
+            <div class="card-image-box">
+              <img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=900&q=80" alt="Tandoori Naan" loading="lazy">
+              <span class="card-badge-floating">Fresh Clay Oven</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-category">Tandoor Special</span>
+                <span class="card-spice">Crispy & Fluffy</span>
+              </div>
+              <h3 class="card-title">Tandoori Roghani & Garlic Butter Naan</h3>
+              <p class="card-text">Hand-stretched leavened bread stamped with traditional design, studded with sesame seeds, baked in underground clay ovens and brushed with butter.</p>
+              <div class="card-action-bar">
+                <div class="price-box">
+                  <span class="price-val">PKR 120</span>
+                  <span class="price-note">Per Fresh Piece</span>
+                </div>
+                <button class="btn btn-pill-add" onclick="cart.addItem('Tandoori Roghani Naan', 120, 'Tandoor', 'https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Kadak Masala Chai (Highway Tradition) -->
+          <div class="card-3d" data-tilt data-tilt-max="18" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.25">
+            <div class="card-glow-edge"></div>
+            <div class="card-image-box">
+              <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=900&q=80" alt="Kadak Masala Chai" loading="lazy">
+              <span class="card-badge-floating"><i data-lucide="coffee"></i> Iconic Finale</span>
+            </div>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-category">Highway Chai</span>
+                <span class="card-spice">Rich Buffalo Milk</span>
+              </div>
+              <h3 class="card-title">Kadak Doodh Patti & Peshawari Kahwa</h3>
+              <p class="card-text">Brewed in heavy brass samovars with green cardamom, saffron threads, rich boiled milk froth, and served in authentic earthen cups under starry highway skies.</p>
+              <div class="card-action-bar">
+                <div class="price-box">
+                  <span class="price-val">PKR 140</span>
+                  <span class="price-note">Per Kulhad Cup</span>
+                </div>
+                <button class="btn btn-pill-add" onclick="cart.addItem('Kadak Doodh Patti Chai', 140, 'Beverages', 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80')">
+                  <i data-lucide="plus"></i> Order
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- COMPLETE HIGHWAY MENU EXPLORER -->
+    <section class="section menu-section" id="menu">
+      <div class="container">
+        
+        <div class="section-header text-center">
+          <span class="section-tag"><i data-lucide="book-open"></i> FULL HIGHWAY MENU</span>
+          <h2 class="section-title">The Royal Feasts of Gadap Town</h2>
+          <p class="section-desc">Select a category below to browse our celebrated highway dishes. Add directly to your order tray for easy takeaway or table pre-ordering.</p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="menu-tabs">
+          <button class="menu-tab active" data-filter="all">All Specialties</button>
+          <button class="menu-tab" data-filter="karahi">Mutton & Chicken Karahi</button>
+          <button class="menu-tab" data-filter="sajji">Sajji & Mandi</button>
+          <button class="menu-tab" data-filter="bbq">Charcoal BBQ</button>
+          <button class="menu-tab" data-filter="rice">Biryani & Pulao</button>
+          <button class="menu-tab" data-filter="tandoor">Tandoor & Chai</button>
+        </div>
+
+        <!-- Menu Item Cards List -->
+        <div class="menu-items-grid" id="menuGrid">
+          <!-- Dynamically populated by JS for instant filtering & smooth UX -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- THE AL HABIB AMBIANCE & EXPERIENCE (Highway Takht, Family Lawns, Mosque) -->
+    <section class="section ambiance-section" id="ambiance">
+      <div class="container">
+        
+        <div class="section-header text-center">
+          <span class="section-tag"><i data-lucide="compass"></i> HIGHWAY AMBIANCE</span>
+          <h2 class="section-title">More Than Dining — A Highway Sanctuary</h2>
+          <p class="section-desc">Spanning over acres on the Karachi-Hyderabad Motorway (M-9), Al Habib offers a peaceful oasis designed for families, travelers, and nighttime food lovers.</p>
+        </div>
+
+        <div class="ambiance-grid">
+          
+          <div class="ambiance-feature-card">
+            <div class="ambiance-img-wrap">
+              <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" alt="Al Habib Open-air Takht Seating">
+              <div class="ambiance-badge"><i data-lucide="moon"></i> Open-Air Experience</div>
+            </div>
+            <div class="ambiance-details">
+              <h3>Traditional Takht & Charpai Dining</h3>
+              <p>Recline comfortably on traditional elevated carpeted <em>Takhts</em> and hand-woven <em>Charpais</em> beneath the cool open breeze of Gadap Town. Perfect for late-night gatherings with family and friends.</p>
+              <ul class="feature-checklist">
+                <li><i data-lucide="check-circle-2"></i> Private family partition booths</li>
+                <li><i data-lucide="check-circle-2"></i> Soft bolsters (Gao Takia) & rugs</li>
+                <li><i data-lucide="check-circle-2"></i> Starry night sky views</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ambiance-feature-card reverse">
+            <div class="ambiance-img-wrap">
+              <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=80" alt="Executive AC Family Hall">
+              <div class="ambiance-badge"><i data-lucide="shield-check"></i> VIP Comfort</div>
+            </div>
+            <div class="ambiance-details">
+              <h3>Air-Conditioned Royal Family Halls</h3>
+              <p>For guests seeking climate-controlled comfort away from highway breezes, our expansive indoor dining suites provide elegant seating, soothing interior lighting, and courteous dedicated table service.</p>
+              <ul class="feature-checklist">
+                <li><i data-lucide="check-circle-2"></i> Fully air-conditioned comfort</li>
+                <li><i data-lucide="check-circle-2"></i> Private party & birthday reservations</li>
+                <li><i data-lucide="check-circle-2"></i> High chairs & baby care friendly</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ambiance-feature-card">
+            <div class="ambiance-img-wrap">
+              <img src="https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=900&q=80" alt="Dedicated Mosque on premises">
+              <div class="ambiance-badge"><i data-lucide="landmark"></i> Spiritual Peace</div>
+            </div>
+            <div class="ambiance-details">
+              <h3>Dedicated On-Premises Mosque (Masjid)</h3>
+              <p>Highlighted by thousands of travelers as a key comfort: an authentic on-site mosque with fresh ablution (wudhu) facilities and carpeted prayer halls for both men and women, ensuring your prayers are never missed.</p>
+              <ul class="feature-checklist">
+                <li><i data-lucide="check-circle-2"></i> Continuous wudhu water supply</li>
+                <li><i data-lucide="check-circle-2"></i> Separate prayer areas for ladies</li>
+                <li><i data-lucide="check-circle-2"></i> Spotlessly clean washrooms</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VERIFIED GOOGLE REVIEWS SECTION (from real Google data) -->
+    <section class="section reviews-section" id="reviews">
+      <div class="container">
+        
+        <div class="section-header text-center">
+          <div class="rating-pill-large">
+            <span class="stars-gold">★★★★★</span>
+            <span class="score">4.1 / 5.0</span>
+            <span class="review-count">(9,117+ Google Reviews)</span>
+          </div>
+          <h2 class="section-title">Loved by Generations of Travelers</h2>
+          <p class="section-desc">Real verified reviews from local food guides, highway motorists, and families visiting Al Habib Restaurant on Karachi Super Highway.</p>
+        </div>
+
+        <div class="reviews-slider-grid">
+          
+          <div class="review-card" data-tilt data-tilt-max="10">
+            <div class="review-header">
+              <div class="reviewer-avatar">MA</div>
+              <div class="reviewer-meta">
+                <h4>Muhammad Ali</h4>
+                <div class="reviewer-tag"><i data-lucide="award"></i> Local Guide · 64 reviews · 85 photos</div>
+              </div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+            <p class="review-body">
+              "Excellent environment, spacious and highly courteous staff. My first choice for highway restaurant dining whenever we travel along M-9. The Mutton Karahi and sizzling Sajji are unconditionally fresh!"
+            </p>
+            <div class="review-footer">
+              <span class="review-dish">Dined: Mutton Karahi & Roghani Roti</span>
+              <span class="review-date">2 months ago · Verified</span>
+            </div>
+          </div>
+
+          <div class="review-card" data-tilt data-tilt-max="10">
+            <div class="review-header">
+              <div class="reviewer-avatar">EF</div>
+              <div class="reviewer-meta">
+                <h4>ELinFaRiZza</h4>
+                <div class="reviewer-tag"><i data-lucide="award"></i> Local Guide · 387 reviews · 4,645 photos</div>
+              </div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+            <p class="review-body">
+              "Very big restaurant complete with mosque and clean washrooms. It has both outdoor takht and indoor air-conditioned seating. Varied menu of foods and beverages. I love mutton pulao, chicken karahi and its piping hot tandoori roti."
+            </p>
+            <div class="review-footer">
+              <span class="review-dish">Dined: Mutton Pulao & Chicken Karahi</span>
+              <span class="review-date">9 months ago · Verified</span>
+            </div>
+          </div>
+
+          <div class="review-card" data-tilt data-tilt-max="10">
+            <div class="review-header">
+              <div class="reviewer-avatar">ZM</div>
+              <div class="reviewer-meta">
+                <h4>Zuhaib Mehdi</h4>
+                <div class="reviewer-tag"><i data-lucide="check-circle"></i> Local Guide · 23 reviews</div>
+              </div>
+              <div class="review-stars">★★★★☆</div>
+            </div>
+            <p class="review-body">
+              "Yummlious dinner and we had a great time! The best thing is that food is hotly served straight off the coal flames. Koila Karahi aroma is unbeatable. Recommended 💯💯."
+            </p>
+            <div class="review-footer">
+              <span class="review-dish">Dined: Koila Karahi & Kadak Chai</span>
+              <span class="review-date">1 month ago · Verified</span>
+            </div>
+          </div>
+
+          <div class="review-card" data-tilt data-tilt-max="10">
+            <div class="review-header">
+              <div class="reviewer-avatar">SK</div>
+              <div class="reviewer-meta">
+                <h4>Saad Khan</h4>
+                <div class="reviewer-tag"><i data-lucide="check-circle"></i> Verified Family Diner</div>
+              </div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+            <p class="review-body">
+              "The Super Highway nighttime atmosphere is magical. Eating Malai Boti and Mutton Sajji while resting on the traditional charpai under the open sky is a classic Karachi tradition. Fast service even on busy weekends!"
+            </p>
+            <div class="review-footer">
+              <span class="review-dish">Dined: Mutton Sajji with Rice & Tea</span>
+              <span class="review-date">3 weeks ago · Verified</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LIVE TAKHT RESERVATION & PRE-ORDER FORM -->
+    <section class="section reservation-section" id="reservation">
+      <div class="container">
+        
+        <div class="reservation-box" data-tilt data-tilt-max="6" data-tilt-glare data-tilt-max-glare="0.15">
+          <div class="reservation-grid">
+            
+            <div class="reservation-info">
+              <span class="section-tag"><i data-lucide="calendar"></i> RESERVATIONS</span>
+              <h2 class="res-title">Reserve Your Family Takht or Hall</h2>
+              <p class="res-desc">Avoid highway weekend waiting times. Pre-book your elevated outdoor Takht or air-conditioned dining lounge. Pre-ordering Sajji or Whole Lamb requires at least 45 minutes notice.</p>
+              
+              <div class="res-perks">
+                <div class="perk-item">
+                  <div class="perk-icon"><i data-lucide="armchair"></i></div>
+                  <div>
+                    <strong>Choice of Ambience</strong>
+                    <p>Open lawn Takht, Charpai, or Executive AC Hall</p>
+                  </div>
+                </div>
+                <div class="perk-item">
+                  <div class="perk-icon"><i data-lucide="clock-3"></i></div>
+                  <div>
+                    <strong>Hot & Ready On Arrival</strong>
+                    <p>Your woks begin sizzling before you pull in</p>
+                  </div>
+                </div>
+                <div class="perk-item">
+                  <div class="perk-icon"><i data-lucide="car"></i></div>
+                  <div>
+                    <strong>VIP Parking Space</strong>
+                    <p>Guarded dedicated highway parking on M-9</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="direct-call-badge">
+                <i data-lucide="phone"></i>
+                <div>
+                  <small>Direct Highway Hotline</small>
+                  <strong>+92 333 3378677</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Booking Form -->
+            <form id="reservationForm" class="res-form">
+              <h3 class="form-title">Takht Booking Form</h3>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="resName">Your Full Name</label>
+                  <input type="text" id="resName" placeholder="e.g. Tariq Mehmood" required>
+                </div>
+                <div class="form-group">
+                  <label for="resPhone">WhatsApp / Mobile Number</label>
+                  <input type="tel" id="resPhone" placeholder="03XX-XXXXXXX" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="resDate">Reservation Date</label>
+                  <input type="date" id="resDate" required>
+                </div>
+                <div class="form-group">
+                  <label for="resTime">Expected Arrival Time</label>
+                  <select id="resTime" required>
+                    <option value="07:00 PM">07:00 PM (Sunset Feast)</option>
+                    <option value="08:00 PM">08:00 PM</option>
+                    <option value="09:00 PM" selected>09:00 PM (Peak Highway Rush)</option>
+                    <option value="10:00 PM">10:00 PM</option>
+                    <option value="11:00 PM">11:00 PM (Late Night Drive)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="resGuests">Number of Diners</label>
+                  <select id="resGuests" required>
+                    <option value="2-4 Persons">2 - 4 Guests (Small Takht)</option>
+                    <option value="5-8 Persons" selected>5 - 8 Guests (Family Takht)</option>
+                    <option value="9-15 Persons">9 - 15 Guests (Large Gathering)</option>
+                    <option value="16+ Persons">16+ Guests (VIP Hall / Lawn Section)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="resSeating">Preferred Seating Area</label>
+                  <select id="resSeating" required>
+                    <option value="Open Air Takht (Under Sky)">Open-Air Family Takht (Lawn)</option>
+                    <option value="Traditional Charpai">Traditional Charpai (Highway Vibe)</option>
+                    <option value="Executive AC Family Hall">Executive AC Family Hall</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="resSpecial">Special Dishes to Pre-Fire (Optional)</label>
+                <input type="text" id="resSpecial" placeholder="e.g. 1 Full Mutton Sajji + 1KG Shinwari Karahi">
+              </div>
+
+              <button type="submit" class="btn btn-primary-glow btn-full">
+                <span>Confirm Takht Reservation</span>
+                <i data-lucide="check"></i>
+              </button>
+              
+              <p class="form-hint"><i data-lucide="shield-check"></i> Instant WhatsApp confirmation dispatched immediately. No advance booking fee required.</p>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LOCATION & MOTORWAY DIRECTIONS (Exact M-9 Gadap Town Details) -->
+    <section class="section location-section" id="location">
+      <div class="container">
+        
+        <div class="section-header text-center">
+          <span class="section-tag"><i data-lucide="map-pin"></i> HOW TO REACH US</span>
+          <h2 class="section-title">Karachi - Hyderabad Super Highway (M-9)</h2>
+          <p class="section-desc">Located right in Gadap Town, Gulshan-e-Osman Housing Society. Easily accessible via Karachi Toll Plaza or Lyari Expressway.</p>
+        </div>
+
+        <div class="location-grid">
+          
+          <div class="location-card" data-tilt data-tilt-max="10">
+            <div class="loc-header">
+              <div class="loc-icon-circle"><i data-lucide="navigation"></i></div>
+              <div>
+                <h3>Al Habib Restaurant</h3>
+                <span class="loc-urdu">الحبیب ریستوران</span>
+              </div>
+            </div>
+
+            <div class="loc-details-list">
+              <div class="loc-detail-item">
+                <i data-lucide="map-pin"></i>
+                <div>
+                  <strong>Address</strong>
+                  <p>Karachi - Hyderabad Motorway, Gadap Town, Karachi, Sindh, Pakistan</p>
+                </div>
+              </div>
+              <div class="loc-detail-item">
+                <i data-lucide="crosshair"></i>
+                <div>
+                  <strong>Plus Code</strong>
+                  <p><code>X5RH+C5 Gulshan -e-Osman Housing Society</code></p>
+                </div>
+              </div>
+              <div class="loc-detail-item">
+                <i data-lucide="phone-outgoing"></i>
+                <div>
+                  <strong>Direct Contact</strong>
+                  <p><a href="tel:+923333378677">+92 333 3378677</a></p>
+                </div>
+              </div>
+              <div class="loc-detail-item">
+                <i data-lucide="clock"></i>
+                <div>
+                  <strong>Operating Hours</strong>
+                  <p>Open 7 Days a Week: <strong>4:00 PM till 12:00 AM Midnight</strong></p>
+                </div>
+              </div>
+              <div class="loc-detail-item">
+                <i data-lucide="utensils"></i>
+                <div>
+                  <strong>Service Types</strong>
+                  <p>Dine-in (Takht / Hall), Takeout, Car Service & Highway Delivery</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="loc-actions">
+              <a href="https://www.google.com/maps/search/?api=1&query=Al+Habib+Restaurant+Karachi+Hyderabad+Motorway+Gadap+Town" target="_blank" rel="noopener noreferrer" class="btn btn-primary-glow btn-full">
+                <i data-lucide="external-link"></i>
+                <span>Open in Google Maps</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Interactive Highway Directions Simulator -->
+          <div class="route-calculator-card" data-tilt data-tilt-max="8">
+            <div class="calculator-header">
+              <i data-lucide="compass"></i>
+              <div>
+                <h3>Highway Drive Estimator</h3>
+                <p>Calculate your estimated driving time to Al Habib Restaurant</p>
+              </div>
+            </div>
+
+            <div class="route-options">
+              <button class="route-btn active" data-from="sohrab">From Sohrab Goth / Toll Plaza</button>
+              <button class="route-btn" data-from="bahria">From Bahria Town Karachi</button>
+              <button class="route-btn" data-from="airport">From Jinnah Intl Airport</button>
+              <button class="route-btn" data-from="gulshan">From Gulshan / Johar</button>
+            </div>
+
+            <div class="route-result-box" id="routeResult">
+              <div class="route-metric">
+                <span class="route-val" id="routeTime">18 mins</span>
+                <span class="route-lbl">Drive Time</span>
+              </div>
+              <div class="route-metric">
+                <span class="route-val" id="routeDist">14.2 km</span>
+                <span class="route-lbl">Distance</span>
+              </div>
+              <div class="route-metric">
+                <span class="route-val" id="routeRoad">M-9 Highway</span>
+                <span class="route-lbl">Direct Route</span>
+              </div>
+            </div>
+
+            <div class="highway-tips">
+              <h4><i data-lucide="info"></i> Highway Travel Tips:</h4>
+              <ul>
+                <li>Ample guarded parking available right off the service lane.</li>
+                <li>Best time to visit with family: 8:00 PM – 10:30 PM.</li>
+                <li>Live fresh Sajji is put on coal rotisserie at 6:30 PM daily.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ORDER TRAY & CART MODAL -->
+  <div class="cart-modal-backdrop" id="cartModal" aria-hidden="true">
+    <div class="cart-modal" role="dialog" aria-labelledby="cartHeading">
+      <div class="cart-modal-header">
+        <div class="cart-header-title">
+          <i data-lucide="shopping-bag"></i>
+          <h3 id="cartHeading">Your Highway Order Tray</h3>
+        </div>
+        <button class="cart-close-btn" id="closeCartBtn" aria-label="Close Order Tray">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="cart-items-container" id="cartItemsList">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="cart-modal-footer">
+        <div class="cart-summary-line">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">PKR 0</span>
+        </div>
+        <div class="cart-summary-line highlight">
+          <span>Estimated Total (Incl. GST)</span>
+          <span id="cartTotal">PKR 0</span>
+        </div>
+        
+        <div class="order-type-selector">
+          <label class="radio-chip">
+            <input type="radio" name="orderType" value="Takeout / Pickup" checked>
+            <span>Highway Takeaway</span>
+          </label>
+          <label class="radio-chip">
+            <input type="radio" name="orderType" value="Dine-in Takht Pre-Order">
+            <span>Dine-in Takht Pre-Order</span>
+          </label>
+        </div>
+
+        <button class="btn btn-primary-glow btn-full" id="checkoutWhatsappBtn">
+          <i data-lucide="send"></i>
+          <span>Send Order via WhatsApp (+92 333 3378677)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <div class="logo-symbol">
+            <i data-lucide="flame"></i>
+          </div>
+          <div class="logo-text">
+            <span class="brand-title">AL HABIB RESTAURANT</span>
+            <span class="brand-urdu">الحبیب ریستوران</span>
+          </div>
+        </div>
+        <p class="footer-bio">
+          Karachi’s landmark destination on the M-9 Super Highway for over two decades. Dedicated to authentic charcoal-fired karahi, fresh whole-roasted sajji, and memorable family evenings under the stars.
+        </p>
+        <div class="footer-rating-badge">
+          <span>★ 4.1 Rating</span> • <span>9,117 Google Diners</span>
+        </div>
+      </div>
+
+      <div class="footer-links-group">
+        <h4>Highway Specialties</h4>
+        <ul>
+          <li><a href="#specialties">Special Mutton Shinwari</a></li>
+          <li><a href="#specialties">Balochi Mutton Sajji</a></li>
+          <li><a href="#specialties">Smoked Koila Karahi</a></li>
+          <li><a href="#specialties">Reshmi Malai Boti</a></li>
+          <li><a href="#specialties">Highway Mutton Pulao</a></li>
+          <li><a href="#specialties">Doodh Patti Chai</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4>Facilities</h4>
+        <ul>
+          <li><a href="#ambiance">Open-Air Takht Seating</a></li>
+          <li><a href="#ambiance">Executive AC Family Halls</a></li>
+          <li><a href="#ambiance">On-Site Masjid (Mosque)</a></li>
+          <li><a href="#ambiance">Hygienic Restrooms</a></li>
+          <li><a href="#location">Expansive M-9 Parking</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-group">
+        <h4>Contact & Hours</h4>
+        <p><strong>Hotline:</strong> <a href="tel:+923333378677">+92 333 3378677</a></p>
+        <p><strong>Location:</strong> Karachi - Hyderabad Motorway, Gadap Town, Karachi</p>
+        <p><strong>Plus Code:</strong> X5RH+C5 Gulshan -e-Osman</p>
+        <p><strong>Timings:</strong> 4:00 PM – 12:00 AM Midnight</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 Al Habib Restaurant (الحبیب ریستوران). All Rights Reserved. Karachi - Hyderabad Motorway, Pakistan.</p>
+        <div class="footer-legal">
+          <span>Dine-In</span>
+          <span>Takeout</span>
+          <span>Open Air Dining</span>
+          <span>100% Halal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
